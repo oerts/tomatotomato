@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1700085262710,
+      "tag": "0000_wild_speed",
+      "breakpoints": true
+    }
+  ]
+}
