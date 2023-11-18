@@ -8,6 +8,13 @@
       "when": 1700085262710,
       "tag": "0000_wild_speed",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1700253891639,
+      "tag": "0001_tan_gamma_corps",
+      "breakpoints": true
     }
   ]
 }
