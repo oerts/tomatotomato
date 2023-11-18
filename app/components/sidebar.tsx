@@ -1,10 +1,12 @@
 import { UserButton } from "@clerk/remix";
 import { Link } from "@remix-run/react";
+import { type SerializeFrom } from "@remix-run/node";
+import { type InferSelectModel } from "drizzle-orm";
+
+import { type folders } from "db/schema";
 
 type Props = {
-  folders: {
-    folder: string | null;
-  }[];
+  folders: SerializeFrom<InferSelectModel<typeof folders>>[];
 };
 
 function Sidebar({ folders }: Props) {
@@ -14,9 +16,9 @@ function Sidebar({ folders }: Props) {
         <p>Qukbuk</p>
       </Link>
       <div className="flex flex-col gap-2">
-        {folders.map(({ folder }) => (
-          <Link key={folder} to={`/recipes/folder/${folder}`}>
-            <p className="capitalize">{folder}</p>
+        {folders.map(({ id, name }) => (
+          <Link key={id} to={`/recipes/f/${id}`}>
+            <p>{name}</p>
           </Link>
         ))}
       </div>

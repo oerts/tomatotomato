@@ -4,6 +4,7 @@ import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 export const recipes = pgTable("recipes", {
   id: uuid("id").defaultRandom().primaryKey(),
   userId: text("user_id").notNull(),
+  folderId: uuid("folder_id"),
   createdAt: timestamp("created_at").defaultNow(),
   href: text("href"),
   image: text("image"),
@@ -13,12 +14,11 @@ export const recipes = pgTable("recipes", {
   directions: text("directions").array(),
 });
 
-// export const usersRelations = relations(users, ({ many }) => ({
-//   posts: many(posts),
-// }));
-
-export const recipesRelations = relations(recipes, ({ many }) => ({
-  folders: many(folders),
+export const recipesRelations = relations(recipes, ({ one }) => ({
+  folder: one(folders, {
+    fields: [recipes.folderId],
+    references: [folders.id],
+  }),
 }));
 
 export const folders = pgTable("folders", {
@@ -28,16 +28,6 @@ export const folders = pgTable("folders", {
   name: text("name").notNull(),
 });
 
-export const foldersRelations = relations(folders, ({ one }) => ({
-  user: one(recipes, {
-    fields: [folders.userId],
-    references: [recipes.userId],
-  }),
+export const foldersRelations = relations(folders, ({ many }) => ({
+  recipes: many(recipes),
 }));
-
-// export const postsRelations = relations(posts, ({ one }) => ({
-//   author: one(users, {
-//     fields: [posts.authorId],
-//     references: [users.id],
-//   }),
-// }));

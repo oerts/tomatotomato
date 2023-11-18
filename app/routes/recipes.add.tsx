@@ -1,17 +1,34 @@
 import { getAuth } from "@clerk/remix/ssr.server";
-import { redirect, type ActionFunctionArgs, json } from "@remix-run/node";
-import { Form, useActionData } from "@remix-run/react";
+import {
+  redirect,
+  json,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+} from "@remix-run/node";
+import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { z } from "zod";
+import { eq } from "drizzle-orm";
 
 import { db } from "db";
-import { recipes } from "db/schema";
+import { folders, recipes } from "db/schema";
 import { Button, Input, Label } from "~/components/ui";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
 
 const schema = z
   .object({
+    folderId: z.string(),
+    image: z.string().url(),
     title: z.string().min(1),
     description: z.string(),
-    folder: z.string(),
+    ingredients: z.string().array(),
+    directions: z.string().array(),
   })
   .required({
     title: true,
@@ -29,20 +46,28 @@ export const action = async (args: ActionFunctionArgs) => {
 
   if (!userId) return redirect("/sign-in");
 
-  const recipe = await db
+  const [recipe] = await db
     .insert(recipes)
     .values({
       ...parsed.data,
       userId: userId,
-      folder: parsed.data.folder.toLowerCase(),
     })
     .returning({ id: recipes.id });
 
-  return redirect(`/recipes/${recipe[0].id}`);
+  return redirect(`/recipes/${recipe.id}`);
+};
+
+export const loader = async (args: LoaderFunctionArgs) => {
+  const { userId } = await getAuth(args);
+
+  if (!userId) return redirect("/sign-in");
+
+  return await db.select().from(folders).where(eq(folders.userId, userId));
 };
 
 function Add() {
   const data = useActionData<typeof action>();
+  const folders = useLoaderData<typeof loader>();
 
   return (
     <div>
@@ -54,8 +79,20 @@ function Add() {
         <Input type="text" name="description" />
         {data && data.error && <p>{data.error.description?._errors[0]}</p>}
         <Label htmlFor="folder">Folder</Label>
-        <Input type="text" name="folder" />
-        {data && data.error && <p>{data.error.folder?._errors[0]}</p>}
+        <Select name="folderId">
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select a folder" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {folders.map((folder) => (
+                <SelectItem key={folder.id} value={folder.id}>
+                  {folder.name}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
         <Button>Add recipe</Button>
       </Form>
     </div>
