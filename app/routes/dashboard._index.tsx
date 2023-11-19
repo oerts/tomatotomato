@@ -3,8 +3,7 @@ import { type LoaderFunctionArgs, redirect } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { eq } from "drizzle-orm";
 
-import { db } from "db";
-import { recipes } from "db/schema";
+import { db, recipes } from "db";
 import { Button } from "~/components/ui";
 
 export const loader = async (args: LoaderFunctionArgs) => {
@@ -21,11 +20,11 @@ function Index() {
   return (
     <div>
       <p>All recipes</p>
-      <Link to="/recipes/add">
+      <Link to="/dashboard/add">
         <Button>Add recipe</Button>
       </Link>
       {recipes.map((recipe) => (
-        <Link key={recipe.id} to={`/recipes/${recipe.id}`}>
+        <Link key={recipe.id} to={`/dashboard/${recipe.id}`}>
           <p>{recipe.title}</p>
         </Link>
       ))}

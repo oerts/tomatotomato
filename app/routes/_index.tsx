@@ -5,12 +5,13 @@ import {
   type MetaFunction,
 } from "@remix-run/node";
 import { Link } from "@remix-run/react";
+
 import { Button } from "~/components/ui/button";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: "Qukbuk" },
+    { name: "description", content: "Open source recipe organizer" },
   ];
 };
 
@@ -18,7 +19,7 @@ export const loader: LoaderFunction = async (args) => {
   const { userId } = await getAuth(args);
 
   if (userId) {
-    return redirect("/recipes");
+    return redirect("/dashboard");
   }
 
   return {};

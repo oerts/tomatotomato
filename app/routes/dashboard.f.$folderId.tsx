@@ -1,8 +1,7 @@
 import { type LoaderFunctionArgs } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 
-import { db } from "db";
-import { folders } from "db/schema";
+import { db, folders } from "db";
 import { eq } from "drizzle-orm";
 
 export const loader = async (args: LoaderFunctionArgs) => {
@@ -21,14 +20,14 @@ export const loader = async (args: LoaderFunctionArgs) => {
   });
 };
 
-function RecipesFolder() {
+function Folder() {
   const folder = useLoaderData<typeof loader>();
 
   return (
     <div>
       <h2 className="capitalize font-bold text-4xl">{folder.name}</h2>
       {folder.recipes.map((recipe) => (
-        <Link key={recipe.id} to={`/recipes/${recipe.id}`}>
+        <Link key={recipe.id} to={`/dashboard/${recipe.id}`}>
           <p>{recipe.title}</p>
         </Link>
       ))}
@@ -36,4 +35,4 @@ function RecipesFolder() {
   );
 }
 
-export default RecipesFolder;
+export default Folder;

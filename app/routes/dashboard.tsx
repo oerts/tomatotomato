@@ -1,10 +1,9 @@
 import { getAuth } from "@clerk/remix/ssr.server";
 import { type LoaderFunctionArgs, redirect } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
-
-import { db } from "db";
-import { folders } from "db/schema";
+import { db, folders } from "db";
 import { eq } from "drizzle-orm";
+
 import Container from "~/components/container";
 import Sidebar from "~/components/sidebar";
 
@@ -16,7 +15,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
   return await db.select().from(folders).where(eq(folders.userId, userId));
 };
 
-function Recipes() {
+function Dashboard() {
   const folders = useLoaderData<typeof loader>();
 
   return (
@@ -26,4 +25,4 @@ function Recipes() {
   );
 }
 
-export default Recipes;
+export default Dashboard;

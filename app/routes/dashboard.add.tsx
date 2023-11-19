@@ -1,25 +1,26 @@
-import { getAuth } from "@clerk/remix/ssr.server";
+import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import {
   redirect,
   json,
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
 } from "@remix-run/node";
-import { Form, useActionData, useLoaderData } from "@remix-run/react";
+import { getAuth } from "@clerk/remix/ssr.server";
 import { z } from "zod";
 import { eq } from "drizzle-orm";
 
-import { db } from "db";
-import { folders, recipes } from "db/schema";
-import { Button, Input, Label } from "~/components/ui";
+import { db, folders, recipes } from "db";
 import {
+  Button,
+  Input,
+  Label,
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "~/components/ui/select";
+} from "~/components/ui";
 
 const schema = z
   .object({
@@ -54,7 +55,7 @@ export const action = async (args: ActionFunctionArgs) => {
     })
     .returning({ id: recipes.id });
 
-  return redirect(`/recipes/${recipe.id}`);
+  return redirect(`/dashboard/${recipe.id}`);
 };
 
 export const loader = async (args: LoaderFunctionArgs) => {
