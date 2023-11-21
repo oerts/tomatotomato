@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 
 import { db, recipes } from "db";
 import { Button } from "~/components/ui";
+import RecipeCard from "~/components/recipe-card";
 
 export const loader = async (args: LoaderFunctionArgs) => {
   const { userId } = await getAuth(args);
@@ -18,15 +19,15 @@ function Index() {
   const recipes = useLoaderData<typeof loader>();
 
   return (
-    <div>
-      <p>All recipes</p>
-      <Link to="/dashboard/add">
-        <Button>Add recipe</Button>
-      </Link>
-      {recipes.map((recipe) => (
-        <Link key={recipe.id} to={`/dashboard/${recipe.id}`}>
-          <p>{recipe.title}</p>
+    <div className="flex flex-col gap-4 py-12">
+      <div className="flex justify-between items-center">
+        <p className="text-3xl font-bold">All recipes</p>
+        <Link to="/dashboard/add">
+          <Button>Add recipe</Button>
         </Link>
+      </div>
+      {recipes.map((recipe) => (
+        <RecipeCard key={recipe.id} recipe={recipe} />
       ))}
     </div>
   );

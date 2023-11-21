@@ -97,7 +97,7 @@ function Add() {
       </div>
 
       <div>
-        <Label htmlFor={fields.folderId.id}>Image</Label>
+        <Label htmlFor={fields.folderId.id}>Folder</Label>
         <Select
           placeholder="Choose a folder"
           {...conform.input(fields.folderId)}
