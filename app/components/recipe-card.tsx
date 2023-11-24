@@ -18,7 +18,7 @@ type Props = {
 };
 
 function RecipeCard({
-  recipe: { id, image, title, href, description },
+  recipe: { id, image, title, href, description, servings, cookTime },
 }: Props) {
   return (
     <Card className="overflow-hidden max-w-xs">
@@ -38,10 +38,10 @@ function RecipeCard({
       <CardFooter>
         <div>
           <p className="text-sm leading-none mb-2">
-            <strong>Serving size:</strong> 2 people
+            <strong>Serving size:</strong> {servings}
           </p>
           <p className="text-sm leading-none">
-            <strong>Cook time:</strong> 60 mins
+            <strong>Cook time:</strong> {cookTime} mins
           </p>
         </div>
         <Form
@@ -61,9 +61,11 @@ function RecipeCard({
             <TrashIcon width={16} height={16} />
           </Button>
         </Form>
-        <Button size="icon">
-          <Pencil1Icon width={16} height={16} />
-        </Button>
+        <Link to={`${id}/edit`}>
+          <Button size="icon">
+            <Pencil1Icon width={16} height={16} />
+          </Button>
+        </Link>
       </CardFooter>
     </Card>
   );

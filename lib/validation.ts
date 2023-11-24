@@ -6,6 +6,8 @@ export const addSchema = z.object({
   image: z.string().url("Must be a valid URL").optional(),
   title: z.string({ required_error: "Title is required" }).min(1),
   description: z.string().optional(),
+  servings: z.number().optional(),
+  cookTime: z.number().optional(),
   ingredients: z.array(z.string()).optional(),
   directions: z.array(z.string()).optional(),
 });

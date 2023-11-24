@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { integer, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
 export const recipes = pgTable("recipes", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -10,6 +10,8 @@ export const recipes = pgTable("recipes", {
   image: text("image"),
   title: text("title"),
   description: text("description"),
+  servings: integer("servings"),
+  cookTime: integer("cook_time"),
   ingredients: text("ingredients").array(),
   directions: text("directions").array(),
 });
