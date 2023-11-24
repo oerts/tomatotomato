@@ -4,6 +4,12 @@ import { eq } from "drizzle-orm";
 
 import { db, recipes } from "db";
 import invariant from "tiny-invariant";
+import { Button } from "~/components/ui";
+import {
+  CheckCircledIcon,
+  ExternalLinkIcon,
+  Share1Icon,
+} from "@radix-ui/react-icons";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   invariant(params.recipeId, "Missing recipeId param");
@@ -21,7 +27,83 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 };
 
 export default function Recipe() {
-  const recipe = useLoaderData<typeof loader>();
+  const {
+    title,
+    description,
+    image,
+    href,
+    servings,
+    cookTime,
+    ingredients,
+    directions,
+  } = useLoaderData<typeof loader>();
 
-  return <div>{recipe.title}</div>;
+  return (
+    <div className="p-6 md:max-w-screen-xl md:mx-auto md:p-12 grid md:grid-cols-3 md:gap-12">
+      <div className="col-span-2 md:col-span-1">
+        <img
+          className="rounded-2xl mb-4 md:mb-12"
+          src={image || ""}
+          alt="Prepared dish"
+        />
+        <div className="bg-secondary px-6 py-4 rounded-2xl border-2 border-dashed">
+          <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-6">
+            Ingredients
+          </h2>
+          <ul>
+            {ingredients?.map((ingredient, index) => (
+              <li className="flex items-center gap-2 mb-2" key={index}>
+                <CheckCircledIcon className="text-primary" />
+                {ingredient}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div className="col-span-2">
+        <h1 className="text-4xl font-extrabold tracking-tight mt-6 lg:text-5xl">
+          {title}
+        </h1>
+        <div className="flex items-center mt-6 px-6 py-4 rounded-2xl bg-secondary border-2 border-primary border-dashed">
+          <span className="mr-8">
+            Servings: <br /> <strong>{servings}</strong>
+          </span>
+          <span className="mr-8">
+            Time: <br /> <strong>{cookTime} mins</strong>
+          </span>
+
+          {href && (
+            <Button className="flex items-center gap-1 ml-auto" variant="link">
+              <a href={href}>
+                <ExternalLinkIcon />
+                <span>Source</span>
+              </a>
+            </Button>
+          )}
+
+          <Button className={`${!href && "ml-auto"}`}>
+            <Share1Icon />
+          </Button>
+        </div>
+        <p className="leading-7 [&:not(:first-child)]:mt-6">{description}</p>
+
+        <h2 className="scroll-m-20 mt-12 text-3xl font-semibold tracking-tight mb-6">
+          How to make it
+        </h2>
+
+        <ol className="flex flex-col gap-6">
+          {directions?.map((direction, index) => {
+            return (
+              <li className="flex items-center gap-6" key={index}>
+                <div className="bg-secondary border-2 border-dashed w-10 h-10 rounded-full flex justify-end items-end">
+                  <span className="text-3xl font-black">{index + 1}</span>
+                </div>
+                {direction}
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+    </div>
+  );
 }
