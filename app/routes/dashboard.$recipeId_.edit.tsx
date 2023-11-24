@@ -1,29 +1,31 @@
-import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import {
   redirect,
-  json,
-  type ActionFunctionArgs,
   type LoaderFunctionArgs,
+  type ActionFunctionArgs,
+  json,
 } from "@remix-run/node";
-import { getAuth } from "@clerk/remix/ssr.server";
+import invariant from "tiny-invariant";
 import { eq } from "drizzle-orm";
+import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { conform, list, useFieldList, useForm } from "@conform-to/react";
+import { TrashIcon } from "@radix-ui/react-icons";
 import { parse } from "@conform-to/zod";
+import { getAuth } from "@clerk/remix/ssr.server";
 
 import { db, folders, recipes } from "db";
 import {
-  Button,
   Input,
+  Textarea,
+  Button,
   Label,
   SelectGroup,
   SelectItem,
-  Textarea,
 } from "~/components/ui";
-import Select from "~/components/select";
 import { addSchema } from "lib/validation";
-import { TrashIcon } from "@radix-ui/react-icons";
+import Select from "~/components/select";
 
 export const action = async (args: ActionFunctionArgs) => {
+  invariant(args.params.recipeId, "Missing recipeId param");
   const formData = await args.request.formData();
   const { userId } = await getAuth(args);
 
@@ -36,30 +38,46 @@ export const action = async (args: ActionFunctionArgs) => {
   }
 
   const [recipe] = await db
-    .insert(recipes)
-    .values({
-      ...submission.value,
-      userId: userId,
-    })
+    .update(recipes)
+    .set({ ...submission.value })
+    .where(eq(recipes.id, args.params.recipeId))
     .returning({ id: recipes.id });
 
   return redirect(`/dashboard/${recipe.id}`);
 };
 
 export const loader = async (args: LoaderFunctionArgs) => {
+  invariant(args.params.recipeId, "Missing recipeId param");
   const { userId } = await getAuth(args);
 
   if (!userId) return redirect("/sign-in");
 
-  return await db.select().from(folders).where(eq(folders.userId, userId));
+  const [recipe] = await db
+    .select()
+    .from(recipes)
+    .where(eq(recipes.id, args.params.recipeId));
+
+  const folderSelection = await db
+    .select()
+    .from(folders)
+    .where(eq(folders.userId, userId));
+
+  if (!recipe) {
+    throw new Response("Not Found", { status: 404 });
+  }
+
+  return { recipe, folders: folderSelection };
 };
 
-function Add() {
+export default function Edit() {
+  const { recipe, folders } = useLoaderData<typeof loader>();
   const lastSubmission = useActionData<typeof action>();
-  const folders = useLoaderData<typeof loader>();
 
   const [form, fields] = useForm({
     id: "add-recipe",
+    defaultValue: {
+      ...recipe,
+    },
     lastSubmission,
     shouldValidate: "onBlur",
     onValidate({ formData }) {
@@ -116,7 +134,10 @@ function Add() {
       <div>
         <Label htmlFor={fields.folderId.id}>Folder</Label>
         <Select
-          placeholder="Choose a folder"
+          placeholder={
+            folders.find((folder) => folder.id === recipe.folderId)?.name ||
+            "Choose a folder"
+          }
           {...conform.input(fields.folderId)}
         >
           <SelectGroup>
@@ -136,7 +157,10 @@ function Add() {
           {ingredients.map((ingredient, index) => (
             <li key={ingredient.key}>
               <div className="flex gap-2">
-                <Input name={ingredient.name} />
+                <Input
+                  name={ingredient.name}
+                  defaultValue={ingredient.defaultValue}
+                />
                 <Button
                   variant="destructive"
                   size="icon"
@@ -163,7 +187,10 @@ function Add() {
           {directions.map((direction, index) => (
             <li key={direction.key}>
               <div className="flex gap-2">
-                <Input name={direction.name} />
+                <Input
+                  name={direction.name}
+                  defaultValue={direction.defaultValue}
+                />
                 <Button
                   variant="destructive"
                   size="icon"
@@ -183,9 +210,7 @@ function Add() {
         </div>
       </div>
 
-      <Button type="submit">Add recipe</Button>
+      <Button type="submit">Save changes</Button>
     </Form>
   );
 }
-
-export default Add;

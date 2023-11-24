@@ -3,13 +3,19 @@ import { type LoaderFunctionArgs } from "@remix-run/node";
 import { eq } from "drizzle-orm";
 
 import { db, recipes } from "db";
+import invariant from "tiny-invariant";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  const id = params.recipeId;
+  invariant(params.recipeId, "Missing recipeId param");
 
-  if (!id) return;
+  const [recipe] = await db
+    .select()
+    .from(recipes)
+    .where(eq(recipes.id, params.recipeId));
 
-  const [recipe] = await db.select().from(recipes).where(eq(recipes.id, id));
+  if (!recipe) {
+    throw new Response("Not Found", { status: 404 });
+  }
 
   return recipe;
 };

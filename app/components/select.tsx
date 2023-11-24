@@ -5,13 +5,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui";
+import { type SelectProps } from "@radix-ui/react-select";
 
-type Props = {
+type Props = SelectProps & {
   name: string;
-  placeholder: string;
+  placeholder?: string;
 };
 
-function Select({ name, placeholder, children }: PropsWithChildren<Props>) {
+function Select({ name, children, placeholder }: PropsWithChildren<Props>) {
   return (
     <SelectBase name={name}>
       <SelectTrigger className="w-[180px]">
