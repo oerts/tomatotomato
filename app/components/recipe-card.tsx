@@ -1,6 +1,7 @@
 import { Form, Link } from "@remix-run/react";
 import { type SerializeFrom } from "@remix-run/node";
 import { type InferSelectModel } from "drizzle-orm";
+import { Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
 
 import { type recipes } from "db";
 import {
@@ -11,7 +12,7 @@ import {
   CardFooter,
   Button,
 } from "./ui";
-import { Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
+import fallback from "../../public/fallback.svg";
 
 type Props = {
   recipe: SerializeFrom<InferSelectModel<typeof recipes>>;
@@ -22,13 +23,17 @@ function RecipeCard({
 }: Props) {
   return (
     <Card className="overflow-hidden max-w-xs">
-      <Link to={href || `/dashboard/${id}`}>
-        {image && (
+      <Link className="flex-grow" to={href || `/dashboard/${id}`}>
+        {image ? (
           <img
             src={image}
-            alt={description || "A photo of the prepared dish"}
+            alt={description || "Prepared dish"}
             className="h-36 w-full object-cover"
           />
+        ) : (
+          <div className="h-36 w-full bg-secondary grid place-content-center">
+            <img className="h-24" src={fallback} alt="" />
+          </div>
         )}
         <CardHeader>
           <CardTitle>{title}</CardTitle>

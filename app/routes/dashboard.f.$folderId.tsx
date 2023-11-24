@@ -1,8 +1,10 @@
 import { type LoaderFunctionArgs } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
+import { eq } from "drizzle-orm";
 
 import { db, folders } from "db";
-import { eq } from "drizzle-orm";
+import RecipeCard from "~/components/recipe-card";
+import { Button } from "~/components/ui";
 
 export const loader = async (args: LoaderFunctionArgs) => {
   const folderId = args.params.folderId;
@@ -24,13 +26,18 @@ function Folder() {
   const folder = useLoaderData<typeof loader>();
 
   return (
-    <div>
-      <h2 className="capitalize font-bold text-4xl">{folder.name}</h2>
-      {folder.recipes.map((recipe) => (
-        <Link key={recipe.id} to={`/dashboard/${recipe.id}`}>
-          <p>{recipe.title}</p>
+    <div className="flex flex-col gap-4 py-12">
+      <div className="flex justify-between items-center">
+        <h2 className="capitalize font-bold text-3xl">{folder.name}</h2>
+        <Link to="/dashboard/add">
+          <Button>Add recipe</Button>
         </Link>
-      ))}
+      </div>
+      <div className="grid grid-cols-4">
+        {folder.recipes.map((recipe) => (
+          <RecipeCard key={recipe.id} recipe={recipe} />
+        ))}
+      </div>
     </div>
   );
 }

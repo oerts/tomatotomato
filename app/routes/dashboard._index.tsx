@@ -26,9 +26,11 @@ function Index() {
           <Button>Add recipe</Button>
         </Link>
       </div>
-      {recipes.map((recipe) => (
-        <RecipeCard key={recipe.id} recipe={recipe} />
-      ))}
+      <div className="grid grid-cols-4">
+        {recipes.map((recipe) => (
+          <RecipeCard key={recipe.id} recipe={recipe} />
+        ))}
+      </div>
     </div>
   );
 }
