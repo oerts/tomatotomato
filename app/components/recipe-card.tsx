@@ -62,12 +62,12 @@ function RecipeCard({
             }
           }}
         >
-          <Button variant="destructive" size="icon" type="submit">
+          <Button size="icon" type="submit">
             <TrashIcon width={16} height={16} />
           </Button>
         </Form>
         <Link to={`${id}/edit`}>
-          <Button size="icon">
+          <Button variant="secondary" size="icon">
             <Pencil1Icon width={16} height={16} />
           </Button>
         </Link>
