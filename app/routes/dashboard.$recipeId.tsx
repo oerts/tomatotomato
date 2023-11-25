@@ -4,8 +4,14 @@ import { eq } from "drizzle-orm";
 
 import { db, recipes } from "db";
 import invariant from "tiny-invariant";
-import { Button } from "~/components/ui";
 import {
+  Button,
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "~/components/ui";
+import {
+  CaretSortIcon,
   CheckCircledIcon,
   ExternalLinkIcon,
   Share1Icon,
@@ -39,29 +45,34 @@ export default function Recipe() {
   } = useLoaderData<typeof loader>();
 
   return (
-    <div className="p-6 md:max-w-screen-xl md:mx-auto md:p-12 grid md:grid-cols-3 md:gap-12">
-      <div className="col-span-2 md:col-span-1">
-        <img
-          className="rounded-2xl mb-4 md:mb-12"
-          src={image || ""}
-          alt="Prepared dish"
-        />
-        <div className="bg-secondary px-6 py-4 rounded-2xl border-2 border-dashed">
-          <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-6">
-            Ingredients
-          </h2>
-          <ul>
-            {ingredients?.map((ingredient, index) => (
-              <li className="flex items-center gap-2 mb-2" key={index}>
-                <CheckCircledIcon className="text-primary" />
-                {ingredient}
-              </li>
-            ))}
-          </ul>
-        </div>
+    <div className="p-6 md:max-w-screen-xl md:mx-auto md:p-12 grid place-content-start md:grid-cols-3 md:gap-12">
+      <img
+        className="col-span-2 md:col-span-1 h-full object-cover rounded-2xl"
+        src={image || ""}
+        alt="The end result of the recipe"
+      />
+      <div className="col-span-2 mt-6 md:mt-0 md:col-span-1 md:row-start-2 bg-secondary px-6 py-4 rounded-2xl border-2 border-dashed sticky top-6">
+        <Collapsible defaultOpen>
+          <CollapsibleTrigger className="w-full flex justify-between items-center">
+            <h2 className="text-3xl font-semibold tracking-tight">
+              Ingredients
+            </h2>
+            <CaretSortIcon />
+          </CollapsibleTrigger>
+          <CollapsibleContent className="mt-6">
+            <ul>
+              {ingredients?.map((ingredient, index) => (
+                <li className="flex items-center gap-2 mb-2" key={index}>
+                  <CheckCircledIcon className="text-primary" />
+                  {ingredient}
+                </li>
+              ))}
+            </ul>
+          </CollapsibleContent>
+        </Collapsible>
       </div>
-      <div className="col-span-2">
-        <h1 className="text-4xl font-extrabold tracking-tight mt-6 lg:text-5xl">
+      <div className="col-span-2 md:row-start-1 md:row-end-3">
+        <h1 className="text-4xl font-extrabold tracking-tight mt-6 mb-8 lg:text-5xl">
           {title}
         </h1>
         <div className="flex items-center mt-6 px-6 py-4 rounded-2xl bg-secondary border-2 border-primary border-dashed">
