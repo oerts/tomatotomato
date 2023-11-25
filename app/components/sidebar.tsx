@@ -3,11 +3,12 @@ import { UserButton, useUser } from "@clerk/remix";
 import { Link } from "@remix-run/react";
 import { type SerializeFrom } from "@remix-run/node";
 import { type InferSelectModel } from "drizzle-orm";
+import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 
 import { type folders } from "db";
-import logo from "../../public/tomatotomatologo.svg";
-import { HamburgerMenuIcon, PlusIcon } from "@radix-ui/react-icons";
 import { Button } from "./ui";
+import Folders from "./folders";
+import logo from "../../public/tomatotomatologo.svg";
 
 type Props = {
   folders: SerializeFrom<InferSelectModel<typeof folders>>[];
@@ -39,40 +40,11 @@ function Sidebar({ folders }: Props) {
           </Button>
         </div>
       </div>
-      {open && (
-        <div className="flex flex-col flex-grow">
-          <div className="flex justify-between items-center mb-4">
-            <h4 className="text-xl font-semibold tracking-tight">Folders</h4>
-            <Button variant="ghost">
-              <PlusIcon />
-            </Button>
-          </div>
-          <Link className="mb-1" to="/dashboard">
-            All recipes
-          </Link>
-          {folders.map(({ id, name }) => (
-            <Link className="mb-1" key={id} to={`/dashboard/f/${id}`}>
-              <p>{name}</p>
-            </Link>
-          ))}
-        </div>
-      )}
-      <div className="hidden flex-col flex-grow md:flex">
-        <div className="flex justify-between items-center mb-4">
-          <h4 className="text-xl font-semibold tracking-tight">Folders</h4>
-          <Button variant="ghost">
-            <PlusIcon />
-          </Button>
-        </div>
-        <Link className="mb-1" to="/dashboard">
-          All recipes
-        </Link>
-        {folders.map(({ id, name }) => (
-          <Link className="mb-1" key={id} to={`/dashboard/f/${id}`}>
-            <p>{name}</p>
-          </Link>
-        ))}
-      </div>
+
+      {open && <Folders folders={folders} />}
+
+      <Folders folders={folders} desktop />
+
       <div className="hidden md:flex items-center gap-2">
         <div className="border-2 border-dashed w-min rounded-full">
           <UserButton />
