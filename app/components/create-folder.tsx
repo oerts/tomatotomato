@@ -30,24 +30,24 @@ export default function CreateFolder() {
         <DialogDescription>
           What would you like to name your new folder?
         </DialogDescription>
-        <Form
-          action={`f/add`}
-          method="post"
-          {...form.props}
-          className="flex flex-col gap-4"
-        >
-          <div>
-            <Label htmlFor={fields.name.id}>Name</Label>
-            <Input {...conform.input(fields.name, { type: "text" })} />
-            <p>{fields.name.errors}</p>
-          </div>
-          <DialogClose asChild>
-            <Button type="submit" className="ml-auto">
-              Save
-            </Button>
-          </DialogClose>
-        </Form>
       </DialogHeader>
+      <Form
+        action={`f/add`}
+        method="post"
+        {...form.props}
+        className="flex flex-col gap-4"
+      >
+        <div>
+          <Label htmlFor={fields.name.id}>Name</Label>
+          <Input {...conform.input(fields.name, { type: "text" })} />
+          <p>{fields.name.errors}</p>
+        </div>
+        <DialogClose asChild>
+          <Button type="submit" className="ml-auto">
+            Save
+          </Button>
+        </DialogClose>
+      </Form>
     </DialogContent>
   );
 }

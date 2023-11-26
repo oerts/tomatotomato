@@ -183,6 +183,7 @@ function Add() {
         </div>
       </div>
 
+      <span>{form.error}</span>
       <Button type="submit">Add recipe</Button>
     </Form>
   );

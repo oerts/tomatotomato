@@ -51,25 +51,32 @@ export default function Recipe() {
         src={image || ""}
         alt="The end result of the recipe"
       />
-      <div className="col-span-2 mt-6 md:mt-0 md:col-span-1 md:row-start-2 bg-secondary px-6 py-4 rounded-2xl border-2 border-dashed sticky top-6">
-        <Collapsible defaultOpen>
-          <CollapsibleTrigger className="w-full flex justify-between items-center">
-            <h2 className="text-3xl font-semibold tracking-tight">
-              Ingredients
-            </h2>
-            <CaretSortIcon />
-          </CollapsibleTrigger>
-          <CollapsibleContent className="mt-6">
-            <ul>
-              {ingredients?.map((ingredient, index) => (
-                <li className="flex items-center gap-2 mb-2" key={index}>
-                  <CheckCircledIcon className="text-primary" />
-                  {ingredient}
-                </li>
-              ))}
-            </ul>
-          </CollapsibleContent>
-        </Collapsible>
+      <div
+        className={`col-span-2 mt-6 md:mt-0 md:col-span-1 md:row-start-2 ${
+          ingredients &&
+          "bg-secondary px-6 py-4 rounded-2xl border-2 border-dashed sticky top-6"
+        }`}
+      >
+        {ingredients && (
+          <Collapsible defaultOpen>
+            <CollapsibleTrigger className="w-full flex justify-between items-center">
+              <h2 className="text-3xl font-semibold tracking-tight">
+                Ingredients
+              </h2>
+              <CaretSortIcon />
+            </CollapsibleTrigger>
+            <CollapsibleContent className="mt-6">
+              <ul>
+                {ingredients?.map((ingredient, index) => (
+                  <li className="flex items-center gap-2 mb-2" key={index}>
+                    <CheckCircledIcon className="text-primary" />
+                    {ingredient}
+                  </li>
+                ))}
+              </ul>
+            </CollapsibleContent>
+          </Collapsible>
+        )}
       </div>
       <div className="col-span-2 md:row-start-1 md:row-end-3">
         <h1 className="text-4xl font-extrabold tracking-tight mt-6 mb-8 lg:text-5xl">
@@ -85,7 +92,12 @@ export default function Recipe() {
 
           {href && (
             <Button className="flex items-center gap-1 ml-auto" variant="link">
-              <a href={href}>
+              <a
+                href={href}
+                target="_blank"
+                rel="noreferrer"
+                className="flex gap-2 items-center"
+              >
                 <ExternalLinkIcon />
                 <span>Source</span>
               </a>
@@ -98,22 +110,26 @@ export default function Recipe() {
         </div>
         <p className="leading-7 [&:not(:first-child)]:mt-6">{description}</p>
 
-        <h2 className="scroll-m-20 mt-12 text-3xl font-semibold tracking-tight mb-6">
-          How to make it
-        </h2>
+        {directions && (
+          <>
+            <h2 className="scroll-m-20 mt-12 text-3xl font-semibold tracking-tight mb-6">
+              How to make it
+            </h2>
 
-        <ol className="flex flex-col gap-6">
-          {directions?.map((direction, index) => {
-            return (
-              <li className="flex items-center gap-6" key={index}>
-                <div className="bg-secondary border-2 border-dashed w-10 h-10 rounded-full flex justify-end items-end">
-                  <span className="text-3xl font-black">{index + 1}</span>
-                </div>
-                {direction}
-              </li>
-            );
-          })}
-        </ol>
+            <ol className="flex flex-col gap-6">
+              {directions?.map((direction, index) => {
+                return (
+                  <li className="flex items-center gap-6" key={index}>
+                    <div className="bg-secondary border-2 border-dashed w-10 h-10 rounded-full flex justify-end items-end">
+                      <span className="text-3xl font-black">{index + 1}</span>
+                    </div>
+                    {direction}
+                  </li>
+                );
+              })}
+            </ol>
+          </>
+        )}
       </div>
     </div>
   );

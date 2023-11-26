@@ -1,7 +1,11 @@
 import { Form, Link } from "@remix-run/react";
 import { type SerializeFrom } from "@remix-run/node";
 import { type InferSelectModel } from "drizzle-orm";
-import { Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
+import {
+  ExternalLinkIcon,
+  Pencil1Icon,
+  TrashIcon,
+} from "@radix-ui/react-icons";
 
 import { type recipes } from "db";
 import {
@@ -23,13 +27,28 @@ function RecipeCard({
 }: Props) {
   return (
     <Card className="overflow-hidden max-w-xs">
-      <Link className="flex-grow" to={href || `/dashboard/${id}`}>
+      <Link className="flex-grow" to={`/dashboard/${id}`}>
         {image ? (
-          <img
-            src={image}
-            alt={description || "Prepared dish"}
-            className="h-36 w-full object-cover"
-          />
+          <div className="h-36 relative">
+            <img
+              src={image}
+              alt={description || "Prepared dish"}
+              className="h-full w-full object-cover"
+            />
+            {href && (
+              <a
+                href={href}
+                target="_blank"
+                rel="noreferrer"
+                className="absolute bottom-2 right-2"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Button variant="secondary">
+                  <ExternalLinkIcon />
+                </Button>
+              </a>
+            )}
+          </div>
         ) : (
           <div className="h-36 w-full bg-secondary grid place-content-center">
             <img className="h-24" src={fallback} alt="" />
@@ -55,19 +74,19 @@ function RecipeCard({
           method="post"
           onSubmit={(event) => {
             const response = confirm(
-              "Please confirm you want to delete this record."
+              "Do you really want to delete this recipe?"
             );
             if (!response) {
               event.preventDefault();
             }
           }}
         >
-          <Button size="icon" type="submit">
+          <Button size="icon" variant="destructive" type="submit">
             <TrashIcon width={16} height={16} />
           </Button>
         </Form>
         <Link to={`${id}/edit`}>
-          <Button variant="secondary" size="icon">
+          <Button size="icon">
             <Pencil1Icon width={16} height={16} />
           </Button>
         </Link>

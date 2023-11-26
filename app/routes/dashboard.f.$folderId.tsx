@@ -4,8 +4,9 @@ import { eq } from "drizzle-orm";
 
 import { db, folders } from "db";
 import RecipeCard from "~/components/recipe-card";
-import { Button } from "~/components/ui";
+import { Button, Dialog, DialogTrigger } from "~/components/ui";
 import { Pencil1Icon } from "@radix-ui/react-icons";
+import EditFolder from "~/components/edit-folder";
 
 export const loader = async (args: LoaderFunctionArgs) => {
   const folderId = args.params.folderId;
@@ -31,11 +32,14 @@ function Folder() {
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
           <h2 className="capitalize font-bold text-3xl">{folder.name}</h2>
-          <Link to="edit">
-            <Button variant="ghost">
-              <Pencil1Icon />
-            </Button>
-          </Link>
+          <Dialog>
+            <DialogTrigger>
+              <Button variant="ghost">
+                <Pencil1Icon />
+              </Button>
+            </DialogTrigger>
+            <EditFolder name={folder.name} />
+          </Dialog>
         </div>
         <Link to="/dashboard/add">
           <Button>Add recipe</Button>
