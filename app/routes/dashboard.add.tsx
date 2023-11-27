@@ -71,121 +71,145 @@ function Add() {
   const directions = useFieldList(form.ref, fields.directions);
 
   return (
-    <Form method="post" className="max-w-lg" {...form.props}>
-      <div>
-        <Label htmlFor={fields.href.id}>Link</Label>
-        <Input {...conform.input(fields.href, { type: "url" })} />
-        <p>{fields.href.errors}</p>
-      </div>
+    <div className="p-4 md:py-12">
+      <Form
+        method="post"
+        {...form.props}
+        className="grid gap-4 md:grid-cols-2 md:gap-12"
+      >
+        <div className="flex flex-col gap-2 md:gap-4">
+          <Label htmlFor={fields.href.id}>Link</Label>
+          <Input {...conform.input(fields.href, { type: "url" })} />
+          <span className="text-sm font-medium leading-none text-destructive">
+            {fields.href.errors}
+          </span>
 
-      <div>
-        <Label htmlFor={fields.title.id}>Title</Label>
-        <Input {...conform.input(fields.title, { type: "text" })} />
-        <p>{fields.title.errors}</p>
-      </div>
+          <Label htmlFor={fields.title.id}>Title</Label>
+          <Input {...conform.input(fields.title, { type: "text" })} />
+          <span className="text-sm font-medium leading-none text-destructive">
+            {fields.title.errors}
+          </span>
 
-      <div>
-        <Label htmlFor={fields.description.id}>Description</Label>
-        <Textarea {...conform.input(fields.description)} />
-        <p>{fields.description.errors}</p>
-      </div>
+          <Label htmlFor={fields.description.id}>Description</Label>
+          <Textarea {...conform.input(fields.description)} />
+          <span className="text-sm font-medium leading-none text-destructive">
+            {fields.description.errors}
+          </span>
 
-      <div className="flex gap-4">
-        <div className="flex-grow">
-          <Label htmlFor={fields.servings.id}>Servings</Label>
-          <Input {...conform.input(fields.servings)} />
-          <p>{fields.servings.errors}</p>
-        </div>
+          <div className="grid gap-2 md:grid-cols-3 md:gap-4">
+            <div>
+              <Label htmlFor={fields.folderId.id}>Folder</Label>
+              <Select
+                placeholder="Choose a folder"
+                {...conform.input(fields.folderId)}
+              >
+                <SelectGroup>
+                  {folders.map((folder) => (
+                    <SelectItem key={folder.id} value={folder.id}>
+                      {folder.name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </Select>
+              <span className="text-sm font-medium leading-none text-destructive">
+                {fields.folderId.errors}
+              </span>
+            </div>
 
-        <div className="flex-grow">
-          <Label htmlFor={fields.cookTime.id}>Cook time</Label>
-          <div className="flex items-center gap-2">
-            <Input {...conform.input(fields.cookTime)} />
-            <span>mins</span>
+            <div>
+              <Label htmlFor={fields.servings.id}>Servings</Label>
+              <Input {...conform.input(fields.servings)} />
+              <span className="text-sm font-medium leading-none text-destructive">
+                {fields.servings.errors}
+              </span>
+            </div>
+
+            <div>
+              <Label htmlFor={fields.cookTime.id}>Cook time</Label>
+              <div className="flex items-center gap-2">
+                <Input {...conform.input(fields.cookTime)} />
+                <span>mins</span>
+              </div>
+              <span className="text-sm font-medium leading-none text-destructive">
+                {fields.cookTime.errors}
+              </span>
+            </div>
           </div>
-          <p>{fields.cookTime.errors}</p>
+
+          <Label htmlFor={fields.image.id}>Image</Label>
+          <Input {...conform.input(fields.image, { type: "url" })} />
+          <span className="text-sm font-medium leading-none text-destructive">
+            {fields.image.errors}
+          </span>
         </div>
-      </div>
 
-      <div>
-        <Label htmlFor={fields.image.id}>Image</Label>
-        <Input {...conform.input(fields.image, { type: "url" })} />
-        <p>{fields.image.errors}</p>
-      </div>
+        <div className="flex flex-col gap-6 flex-grow">
+          <div className="flex flex-col gap-4">
+            <Label htmlFor={fields.ingredients.id}>Ingredients</Label>
+            <Button
+              variant="secondary"
+              {...list.insert(fields.ingredients.name)}
+            >
+              Add ingredient
+            </Button>
+            <ul className="flex flex-col gap-4">
+              {ingredients.map((ingredient, index) => (
+                <li key={ingredient.key}>
+                  <div className="flex gap-2">
+                    <Input name={ingredient.name} />
+                    <Button
+                      variant="destructive"
+                      size="icon"
+                      {...list.remove(fields.ingredients.name, { index })}
+                    >
+                      <TrashIcon />
+                    </Button>
+                  </div>
+                  <span className="text-sm font-medium leading-none text-destructive">
+                    {ingredient.error}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-      <div>
-        <Label htmlFor={fields.folderId.id}>Folder</Label>
-        <Select
-          placeholder="Choose a folder"
-          {...conform.input(fields.folderId)}
-        >
-          <SelectGroup>
-            {folders.map((folder) => (
-              <SelectItem key={folder.id} value={folder.id}>
-                {folder.name}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </Select>
-        <p>{fields.folderId.errors}</p>
-      </div>
-
-      <div>
-        <Label htmlFor={fields.ingredients.id}>Ingredients</Label>
-        <ul className="flex flex-col gap-4">
-          {ingredients.map((ingredient, index) => (
-            <li key={ingredient.key}>
-              <div className="flex gap-2">
-                <Input name={ingredient.name} />
-                <Button
-                  variant="destructive"
-                  size="icon"
-                  {...list.remove(fields.ingredients.name, { index })}
-                >
-                  <TrashIcon />
-                </Button>
-              </div>
-              <p>{ingredient.error}</p>
-            </li>
-          ))}
-        </ul>
-        <div>
-          <Button variant="secondary" {...list.insert(fields.ingredients.name)}>
-            Add ingredient
-          </Button>
+          <div className="flex flex-col gap-4">
+            <Label htmlFor={fields.directions.id}>Directions</Label>
+            <Button
+              variant="secondary"
+              {...list.insert(fields.directions.name)}
+            >
+              Add direction
+            </Button>
+            <ul className="flex flex-col gap-4">
+              {directions.map((direction, index) => (
+                <li key={direction.key}>
+                  <div className="flex gap-2">
+                    <Input name={direction.name} />
+                    <Button
+                      variant="destructive"
+                      size="icon"
+                      {...list.remove(fields.directions.name, { index })}
+                    >
+                      <TrashIcon />
+                    </Button>
+                  </div>
+                  <span className="text-sm font-medium leading-none text-destructive">
+                    {direction.error}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-      </div>
-
-      <div>
-        <Label htmlFor={fields.directions.id}>Directions</Label>
-
-        <ul className="flex flex-col gap-4">
-          {directions.map((direction, index) => (
-            <li key={direction.key}>
-              <div className="flex gap-2">
-                <Input name={direction.name} />
-                <Button
-                  variant="destructive"
-                  size="icon"
-                  {...list.remove(fields.directions.name, { index })}
-                >
-                  <TrashIcon />
-                </Button>
-              </div>
-              <p>{direction.error}</p>
-            </li>
-          ))}
-        </ul>
-        <div>
-          <Button variant="secondary" {...list.insert(fields.directions.name)}>
-            Add direction
-          </Button>
+        <div className="md:col-span-2 flex flex-col items-start gap-2">
+          <span className="text-sm font-medium leading-none text-destructive">
+            {form.error}
+          </span>
+          <Button type="submit">Add recipe</Button>
         </div>
-      </div>
-
-      <span>{form.error}</span>
-      <Button type="submit">Add recipe</Button>
-    </Form>
+      </Form>
+    </div>
   );
 }
 
