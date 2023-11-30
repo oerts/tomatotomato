@@ -10,7 +10,7 @@ import {
   Input,
   Label,
 } from "./ui";
-import { folderSchema } from "lib/validation";
+import { folderSchema } from "~/lib/validation";
 import { parse } from "@conform-to/zod";
 import { Form } from "@remix-run/react";
 

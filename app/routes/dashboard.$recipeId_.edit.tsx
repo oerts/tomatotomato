@@ -12,7 +12,7 @@ import { TrashIcon } from "@radix-ui/react-icons";
 import { parse } from "@conform-to/zod";
 import { getAuth } from "@clerk/remix/ssr.server";
 
-import { db, folders, recipes } from "db";
+import { db, folders, recipes } from "~/db";
 import {
   Input,
   Textarea,
@@ -21,7 +21,7 @@ import {
   SelectGroup,
   SelectItem,
 } from "~/components/ui";
-import { addSchema } from "lib/validation";
+import { addSchema } from "~/lib/validation";
 import Select from "~/components/select";
 
 export const action = async (args: ActionFunctionArgs) => {

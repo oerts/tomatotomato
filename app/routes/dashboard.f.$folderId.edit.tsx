@@ -4,8 +4,8 @@ import { redirect, type ActionFunctionArgs, json } from "@remix-run/node";
 import { eq } from "drizzle-orm";
 import invariant from "tiny-invariant";
 
-import { db, folders } from "db";
-import { folderSchema } from "lib/validation";
+import { db, folders } from "~/db";
+import { folderSchema } from "~/lib/validation";
 
 export const action = async (args: ActionFunctionArgs) => {
   invariant(args.params.folderId, "Missing folderId param");

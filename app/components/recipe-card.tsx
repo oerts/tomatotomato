@@ -7,7 +7,7 @@ import {
   TrashIcon,
 } from "@radix-ui/react-icons";
 
-import { type recipes } from "db";
+import { type recipes } from "~/db";
 import {
   Card,
   CardHeader,

@@ -3,7 +3,7 @@ import { type LoaderFunctionArgs, redirect } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { eq } from "drizzle-orm";
 
-import { db, recipes } from "db";
+import { db, recipes } from "~/db";
 import { Button } from "~/components/ui";
 import RecipeCard from "~/components/recipe-card";
 

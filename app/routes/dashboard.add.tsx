@@ -10,7 +10,7 @@ import { eq } from "drizzle-orm";
 import { conform, list, useFieldList, useForm } from "@conform-to/react";
 import { parse } from "@conform-to/zod";
 
-import { db, folders, recipes } from "db";
+import { db, folders, recipes } from "~/db";
 import {
   Button,
   Input,
@@ -20,7 +20,7 @@ import {
   Textarea,
 } from "~/components/ui";
 import Select from "~/components/select";
-import { addSchema } from "lib/validation";
+import { addSchema } from "~/lib/validation";
 import { TrashIcon } from "@radix-ui/react-icons";
 
 export const action = async (args: ActionFunctionArgs) => {

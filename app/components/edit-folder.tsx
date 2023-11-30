@@ -2,7 +2,7 @@ import { conform, useForm } from "@conform-to/react";
 import { parse } from "@conform-to/zod";
 import { Form } from "@remix-run/react";
 
-import { folderSchema } from "lib/validation";
+import { folderSchema } from "~/lib/validation";
 import {
   Button,
   DialogClose,

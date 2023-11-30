@@ -5,7 +5,7 @@ import { type SerializeFrom } from "@remix-run/node";
 import { type InferSelectModel } from "drizzle-orm";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 
-import { type folders } from "db";
+import { type folders } from "~/db";
 import { Button } from "./ui";
 import Folders from "./folders";
 import logo from "../../public/tomatotomatologo.svg";

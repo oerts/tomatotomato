@@ -3,7 +3,7 @@ import { Link } from "@remix-run/react";
 import { type SerializeFrom } from "@remix-run/node";
 import { type InferSelectModel } from "drizzle-orm";
 
-import { type folders } from "db";
+import { type folders } from "~/db";
 import { Button, Dialog, DialogTrigger } from "./ui";
 import CreateFolder from "./create-folder";
 

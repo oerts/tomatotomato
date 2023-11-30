@@ -1,7 +1,7 @@
 import { getAuth } from "@clerk/remix/ssr.server";
 import { type LoaderFunctionArgs, redirect } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
-import { db, folders } from "db";
+import { db, folders } from "~/db";
 import { eq } from "drizzle-orm";
 
 import Container from "~/components/container";

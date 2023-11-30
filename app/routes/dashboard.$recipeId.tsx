@@ -2,7 +2,7 @@ import { useLoaderData } from "@remix-run/react";
 import { type LoaderFunctionArgs } from "@remix-run/node";
 import { eq } from "drizzle-orm";
 
-import { db, recipes } from "db";
+import { db, recipes } from "~/db";
 import invariant from "tiny-invariant";
 import {
   Button,

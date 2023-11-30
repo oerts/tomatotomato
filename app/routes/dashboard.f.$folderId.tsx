@@ -2,7 +2,7 @@ import { type LoaderFunctionArgs } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { eq } from "drizzle-orm";
 
-import { db, folders } from "db";
+import { db, folders } from "~/db";
 import RecipeCard from "~/components/recipe-card";
 import { Button, Dialog, DialogTrigger } from "~/components/ui";
 import { Pencil1Icon } from "@radix-ui/react-icons";

@@ -2,8 +2,8 @@ import { getAuth } from "@clerk/remix/ssr.server";
 import { parse } from "@conform-to/zod";
 import { redirect, type ActionFunctionArgs, json } from "@remix-run/node";
 
-import { db, folders } from "db";
-import { folderSchema } from "lib/validation";
+import { db, folders } from "~/db";
+import { folderSchema } from "~/lib/validation";
 
 export const action = async (args: ActionFunctionArgs) => {
   const formData = await args.request.formData();
