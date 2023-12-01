@@ -89,7 +89,7 @@ export default function Edit() {
   const directions = useFieldList(form.ref, fields.directions);
 
   return (
-    <div className="p-4 md:py-12">
+    <div className="p-4">
       <Form
         method="post"
         {...form.props}
@@ -164,17 +164,14 @@ export default function Edit() {
         <div className="flex flex-col gap-6 flex-grow">
           <div className="flex flex-col gap-4">
             <Label htmlFor={fields.ingredients.id}>Ingredients</Label>
-            <Button
-              variant="secondary"
-              {...list.insert(fields.ingredients.name)}
-            >
-              Add ingredient
-            </Button>
             <ul className="flex flex-col gap-4">
               {ingredients.map((ingredient, index) => (
                 <li key={ingredient.key}>
                   <div className="flex gap-2">
-                    <Input name={ingredient.name} />
+                    <Input
+                      name={ingredient.name}
+                      defaultValue={ingredient.defaultValue}
+                    />
                     <Button
                       variant="destructive"
                       size="icon"
@@ -189,21 +186,24 @@ export default function Edit() {
                 </li>
               ))}
             </ul>
+            <Button
+              variant="secondary"
+              {...list.insert(fields.ingredients.name)}
+            >
+              Add ingredient
+            </Button>
           </div>
 
           <div className="flex flex-col gap-4">
             <Label htmlFor={fields.directions.id}>Directions</Label>
-            <Button
-              variant="secondary"
-              {...list.insert(fields.directions.name)}
-            >
-              Add direction
-            </Button>
             <ul className="flex flex-col gap-4">
               {directions.map((direction, index) => (
                 <li key={direction.key}>
                   <div className="flex gap-2">
-                    <Input name={direction.name} />
+                    <Input
+                      name={direction.name}
+                      defaultValue={direction.defaultValue}
+                    />
                     <Button
                       variant="destructive"
                       size="icon"
@@ -218,6 +218,12 @@ export default function Edit() {
                 </li>
               ))}
             </ul>
+            <Button
+              variant="secondary"
+              {...list.insert(fields.directions.name)}
+            >
+              Add direction
+            </Button>
           </div>
         </div>
         <div className="md:col-span-2 flex flex-col items-start gap-2">
