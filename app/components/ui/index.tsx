@@ -6,3 +6,4 @@ export * from "./textarea";
 export * from "./card";
 export * from "./collapsible";
 export * from "./dialog";
+export * from "./skeleton";

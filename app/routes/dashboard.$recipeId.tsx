@@ -1,15 +1,6 @@
 import { Link, useLoaderData } from "@remix-run/react";
 import { type LoaderFunctionArgs } from "@remix-run/node";
 import { eq } from "drizzle-orm";
-
-import { db, recipes } from "~/db";
-import invariant from "tiny-invariant";
-import {
-  Button,
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "~/components/ui";
 import {
   CaretSortIcon,
   CheckCircledIcon,
@@ -17,6 +8,15 @@ import {
   Pencil1Icon,
   Share1Icon,
 } from "@radix-ui/react-icons";
+import invariant from "tiny-invariant";
+
+import { db, recipes } from "~/db";
+import {
+  Button,
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "~/components/ui";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   invariant(params.recipeId, "Missing recipeId param");
@@ -46,7 +46,7 @@ export default function Recipe() {
   } = useLoaderData<typeof loader>();
 
   return (
-    <div className="p-6 md:max-w-screen-xl md:mx-auto md:p-12 grid place-content-start md:grid-cols-3 md:gap-12">
+    <div className="md:max-w-screen-xl md:mx-auto grid place-content-start md:grid-cols-3 md:gap-12">
       <img
         className="col-span-2 md:col-span-1 h-full object-cover rounded-2xl"
         src={image || ""}

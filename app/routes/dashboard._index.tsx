@@ -1,11 +1,12 @@
 import { getAuth } from "@clerk/remix/ssr.server";
 import { type LoaderFunctionArgs, redirect } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData, useNavigation } from "@remix-run/react";
 import { eq } from "drizzle-orm";
 
 import { db, recipes } from "~/db";
 import { Button } from "~/components/ui";
 import RecipeCard from "~/components/recipe-card";
+import LoadingPage from "~/components/loading-page";
 
 export const loader = async (args: LoaderFunctionArgs) => {
   const { userId } = await getAuth(args);
@@ -16,9 +17,12 @@ export const loader = async (args: LoaderFunctionArgs) => {
 };
 
 function Index() {
+  const navigation = useNavigation();
   const recipes = useLoaderData<typeof loader>();
 
-  return (
+  return navigation.state === "loading" ? (
+    <LoadingPage />
+  ) : (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
         <p className="text-3xl font-bold">All recipes</p>
