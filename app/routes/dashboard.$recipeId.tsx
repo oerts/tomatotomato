@@ -1,4 +1,4 @@
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import { type LoaderFunctionArgs } from "@remix-run/node";
 import { eq } from "drizzle-orm";
 
@@ -14,6 +14,7 @@ import {
   CaretSortIcon,
   CheckCircledIcon,
   ExternalLinkIcon,
+  Pencil1Icon,
   Share1Icon,
 } from "@radix-ui/react-icons";
 
@@ -83,12 +84,14 @@ export default function Recipe() {
           {title}
         </h1>
         <div className="flex items-center mt-6 px-6 py-4 rounded-2xl bg-secondary border-2 border-primary border-dashed">
-          <span className="mr-8">
-            Servings: <br /> <strong>{servings}</strong>
-          </span>
-          <span className="mr-8">
-            Time: <br /> <strong>{cookTime} mins</strong>
-          </span>
+          <div className="flex flex-col gap-2 md:flex-row md:gap-8">
+            <span>
+              Servings: <br /> <strong>{servings}</strong>
+            </span>
+            <span>
+              Time: <br /> <strong>{cookTime} mins</strong>
+            </span>
+          </div>
 
           {href && (
             <Button className="flex items-center gap-1 ml-auto" variant="link">
@@ -104,7 +107,13 @@ export default function Recipe() {
             </Button>
           )}
 
-          <Button className={`${!href && "ml-auto"}`}>
+          <Button className={`${!href && "ml-auto"}`} variant="outline">
+            <Link to="edit">
+              <Pencil1Icon />
+            </Link>
+          </Button>
+
+          <Button className="ml-2">
             <Share1Icon />
           </Button>
         </div>
@@ -119,11 +128,16 @@ export default function Recipe() {
             <ol className="flex flex-col gap-6">
               {directions?.map((direction, index) => {
                 return (
-                  <li className="flex items-center gap-6" key={index}>
+                  <li
+                    className="flex items-center justify-start gap-2"
+                    key={index}
+                  >
                     <div className="bg-secondary border-2 border-dashed w-10 h-10 rounded-full flex justify-end items-end">
-                      <span className="text-3xl font-black">{index + 1}</span>
+                      <span className="text-3xl font-black w-10 h-10">
+                        {index + 1}
+                      </span>
                     </div>
-                    {direction}
+                    <span>{direction}</span>
                   </li>
                 );
               })}
