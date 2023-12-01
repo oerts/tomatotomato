@@ -45,7 +45,7 @@ function Folder() {
           <Button>Add recipe</Button>
         </Link>
       </div>
-      <div className="grid grid-cols-4">
+      <div className="grid gap-2 place-content-center md:grid-cols-4">
         {folder.recipes.map((recipe) => (
           <RecipeCard key={recipe.id} recipe={recipe} />
         ))}

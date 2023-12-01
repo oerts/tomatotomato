@@ -19,14 +19,14 @@ function Index() {
   const recipes = useLoaderData<typeof loader>();
 
   return (
-    <div className="flex flex-col gap-4 py-12">
+    <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
         <p className="text-3xl font-bold">All recipes</p>
         <Link to="/dashboard/add">
           <Button>Add recipe</Button>
         </Link>
       </div>
-      <div className="grid grid-cols-4">
+      <div className="grid gap-2 place-content-center md:grid-cols-4">
         {recipes.map((recipe) => (
           <RecipeCard key={recipe.id} recipe={recipe} />
         ))}

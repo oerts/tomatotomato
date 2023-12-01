@@ -20,7 +20,7 @@ function Sidebar({ folders }: Props) {
   const { user } = useUser();
 
   return (
-    <nav className="bg-primary text-white flex flex-col px-2 py-4 md:px-8 md:py-12 md:border-r-2 md:border-dashed md:border-secondary">
+    <nav className="bg-primary text-white flex flex-col px-2 py-4 md:px-8 md:py-12">
       <div className={`flex items-center ${open && "mb-6"} md:mb-12`}>
         <Link className="flex items-center gap-2 mr-auto" to="/dashboard">
           <img
@@ -46,9 +46,7 @@ function Sidebar({ folders }: Props) {
       <Folders folders={folders} desktop />
 
       <div className="hidden md:flex items-center gap-2">
-        <div className="border-2 border-dashed w-min rounded-full">
-          <UserButton />
-        </div>
+        <UserButton />
         <span>{user?.fullName}</span>
       </div>
     </nav>

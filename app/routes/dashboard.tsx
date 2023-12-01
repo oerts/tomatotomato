@@ -20,7 +20,9 @@ function Dashboard() {
 
   return (
     <Container sidebar={<Sidebar folders={folders} />}>
-      <Outlet />
+      <div className="px-2 py-6 md:py-12">
+        <Outlet />
+      </div>
     </Container>
   );
 }
