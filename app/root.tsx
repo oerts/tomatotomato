@@ -43,6 +43,6 @@ function App() {
 
 export default ClerkApp(App, {
   appearance: {
-    variables: { colorPrimary: "hsl(142.1 76.2% 36.3%)" },
+    variables: { colorPrimary: "#f97316" },
   },
 });

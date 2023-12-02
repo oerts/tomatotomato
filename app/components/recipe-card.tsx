@@ -85,7 +85,7 @@ function RecipeCard({
             <TrashIcon width={16} height={16} />
           </Button>
         </Form>
-        <Link to={`${id}/edit`}>
+        <Link to={`/dashboard/${id}/edit`}>
           <Button size="icon">
             <Pencil1Icon width={16} height={16} />
           </Button>

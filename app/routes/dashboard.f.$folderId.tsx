@@ -16,6 +16,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
   return await db.query.folders.findFirst({
     columns: {
       name: true,
+      id: true,
     },
     with: {
       recipes: true,
@@ -41,7 +42,7 @@ function Folder() {
             <EditFolder name={folder.name} />
           </Dialog>
         </div>
-        <Link to="/dashboard/add">
+        <Link to={`/dashboard/add?folder=${folder.id}`}>
           <Button>Add recipe</Button>
         </Link>
       </div>

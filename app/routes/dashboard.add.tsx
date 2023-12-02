@@ -1,4 +1,9 @@
-import { Form, useActionData, useLoaderData } from "@remix-run/react";
+import {
+  Form,
+  useActionData,
+  useLoaderData,
+  useSearchParams,
+} from "@remix-run/react";
 import {
   redirect,
   json,
@@ -9,19 +14,12 @@ import { getAuth } from "@clerk/remix/ssr.server";
 import { eq } from "drizzle-orm";
 import { conform, list, useFieldList, useForm } from "@conform-to/react";
 import { parse } from "@conform-to/zod";
+import { TrashIcon } from "@radix-ui/react-icons";
 
 import { db, folders, recipes } from "~/db";
-import {
-  Button,
-  Input,
-  Label,
-  SelectGroup,
-  SelectItem,
-  Textarea,
-} from "~/components/ui";
+import { Button, Input, Label, SelectItem, Textarea } from "~/components/ui";
 import Select from "~/components/select";
 import { addSchema } from "~/lib/validation";
-import { TrashIcon } from "@radix-ui/react-icons";
 
 export const action = async (args: ActionFunctionArgs) => {
   const formData = await args.request.formData();
@@ -57,11 +55,16 @@ export const loader = async (args: LoaderFunctionArgs) => {
 function Add() {
   const lastSubmission = useActionData<typeof action>();
   const folders = useLoaderData<typeof loader>();
+  const [searchParams] = useSearchParams();
+  const selectedFolder = searchParams.get("folder");
 
   const [form, fields] = useForm({
     id: "add-recipe",
     lastSubmission,
     shouldValidate: "onBlur",
+    defaultValue: {
+      folderId: selectedFolder || undefined,
+    },
     onValidate({ formData }) {
       return parse(formData, { schema: addSchema });
     },
@@ -103,13 +106,11 @@ function Add() {
                 placeholder="Choose a folder"
                 {...conform.input(fields.folderId)}
               >
-                <SelectGroup>
-                  {folders.map((folder) => (
-                    <SelectItem key={folder.id} value={folder.id}>
-                      {folder.name}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
+                {folders.map((folder) => (
+                  <SelectItem key={folder.id} value={folder.id}>
+                    {folder.name}
+                  </SelectItem>
+                ))}
               </Select>
               <span className="text-sm font-medium leading-none text-destructive">
                 {fields.folderId.errors}
@@ -146,12 +147,6 @@ function Add() {
         <div className="flex flex-col gap-6 flex-grow">
           <div className="flex flex-col gap-4">
             <Label htmlFor={fields.ingredients.id}>Ingredients</Label>
-            <Button
-              variant="secondary"
-              {...list.insert(fields.ingredients.name)}
-            >
-              Add ingredient
-            </Button>
             <ul className="flex flex-col gap-4">
               {ingredients.map((ingredient, index) => (
                 <li key={ingredient.key}>
@@ -171,16 +166,16 @@ function Add() {
                 </li>
               ))}
             </ul>
+            <Button
+              variant="secondary"
+              {...list.insert(fields.ingredients.name)}
+            >
+              Add ingredient
+            </Button>
           </div>
 
           <div className="flex flex-col gap-4">
             <Label htmlFor={fields.directions.id}>Directions</Label>
-            <Button
-              variant="secondary"
-              {...list.insert(fields.directions.name)}
-            >
-              Add direction
-            </Button>
             <ul className="flex flex-col gap-4">
               {directions.map((direction, index) => (
                 <li key={direction.key}>
@@ -200,6 +195,12 @@ function Add() {
                 </li>
               ))}
             </ul>
+            <Button
+              variant="secondary"
+              {...list.insert(fields.directions.name)}
+            >
+              Add direction
+            </Button>
           </div>
         </div>
         <div className="md:col-span-2 flex flex-col items-start gap-2">

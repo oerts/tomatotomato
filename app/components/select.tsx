@@ -12,9 +12,14 @@ type Props = SelectProps & {
   placeholder?: string;
 };
 
-function Select({ name, children, placeholder }: PropsWithChildren<Props>) {
+function Select({
+  name,
+  children,
+  placeholder,
+  ...props
+}: PropsWithChildren<Props>) {
   return (
-    <SelectBase name={name}>
+    <SelectBase name={name} {...props}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
