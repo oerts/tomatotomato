@@ -1,6 +1,7 @@
 import { getAuth } from "@clerk/remix/ssr.server";
 import { type LoaderFunctionArgs, redirect } from "@remix-run/node";
 import { Link, useLoaderData, useNavigation } from "@remix-run/react";
+import { PlusIcon } from "@radix-ui/react-icons";
 import { eq } from "drizzle-orm";
 
 import { db, recipes } from "~/db";
@@ -27,10 +28,13 @@ function Index() {
       <div className="flex justify-between items-center">
         <p className="text-3xl font-bold">All recipes</p>
         <Link to="/dashboard/add">
-          <Button>Add recipe</Button>
+          <Button className="hidden md:block">Add recipe</Button>
+          <Button className="block md:hidden">
+            <PlusIcon />
+          </Button>
         </Link>
       </div>
-      <div className="grid gap-2 place-content-center md:grid-cols-4">
+      <div className="grid gap-2 place-content-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {recipes.map((recipe) => (
           <RecipeCard key={recipe.id} recipe={recipe} />
         ))}

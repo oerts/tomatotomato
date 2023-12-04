@@ -56,7 +56,9 @@ function RecipeCard({
         )}
         <CardHeader>
           <CardTitle>{title}</CardTitle>
-          <CardDescription>{description}</CardDescription>
+          <CardDescription className="line-clamp-4">
+            {description}
+          </CardDescription>
         </CardHeader>
       </Link>
       <CardFooter>
