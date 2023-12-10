@@ -15,6 +15,14 @@ import {
   CardDescription,
   CardFooter,
   Button,
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogClose,
+  DialogFooter,
 } from "./ui";
 import fallback from "../../public/fallback.svg";
 
@@ -70,23 +78,31 @@ function RecipeCard({
             <strong>Cook time:</strong> {cookTime} mins
           </p>
         </div>
-        <Form
-          className="mr-2 ml-auto"
-          action={`${id}/destroy`}
-          method="post"
-          onSubmit={(event) => {
-            const response = confirm(
-              "Do you really want to delete this recipe?"
-            );
-            if (!response) {
-              event.preventDefault();
-            }
-          }}
-        >
-          <Button size="icon" variant="destructive" type="submit">
-            <TrashIcon width={16} height={16} />
-          </Button>
-        </Form>
+        <Dialog>
+          <DialogTrigger className="mr-2 ml-auto">
+            <Button size="icon" variant="destructive" type="submit">
+              <TrashIcon width={16} height={16} />
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Delete Recipe</DialogTitle>
+              <DialogDescription>
+                Are you sure you want to delete this recipe?
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Form action={`${id}/destroy`} method="post">
+                <Button variant="destructive">Delete</Button>
+              </Form>
+              <DialogClose asChild>
+                <Button type="button" variant="secondary">
+                  Cancel
+                </Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
         <Link to={`/dashboard/${id}/edit`}>
           <Button size="icon">
             <Pencil1Icon width={16} height={16} />
