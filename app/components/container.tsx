@@ -6,7 +6,7 @@ type Props = {
 
 function Container({ children, sidebar }: PropsWithChildren<Props>) {
   return (
-    <div className="h-full md:grid md:grid-cols-sidebar md:gap-8 md:pr-8">
+    <div className="h-full md:grid md:grid-cols-sidebar">
       {sidebar}
       {children}
     </div>

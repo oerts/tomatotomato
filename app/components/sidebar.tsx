@@ -20,7 +20,7 @@ function Sidebar({ folders }: Props) {
   const { user } = useUser();
 
   return (
-    <nav className="bg-primary text-white flex flex-col px-2 py-4 md:px-8 md:py-12">
+    <nav className="bg-primary text-white flex flex-col px-2 py-4 md:px-8 md:py-8">
       <div className={`flex items-center ${open && "mb-6"} md:mb-12`}>
         <Link className="flex items-center gap-2 mr-auto" to="/dashboard">
           <img
