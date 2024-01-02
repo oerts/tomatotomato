@@ -1,5 +1,5 @@
 {
-  "id": "af4e99cd-95cf-4cf8-a72a-e2881ffa2f78",
+  "id": "c0e4dc4e-f285-468a-8d66-d3600a2c0c02",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -91,6 +91,18 @@
         "description": {
           "name": "description",
           "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "servings": {
+          "name": "servings",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cook_time": {
+          "name": "cook_time",
+          "type": "integer",
           "primaryKey": false,
           "notNull": false
         },

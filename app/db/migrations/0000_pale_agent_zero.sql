@@ -14,6 +14,8 @@ CREATE TABLE IF NOT EXISTS "recipes" (
 	"image" text,
 	"title" text,
 	"description" text,
+	"servings" integer,
+	"cook_time" integer,
 	"ingredients" text[],
 	"directions" text[]
 );
