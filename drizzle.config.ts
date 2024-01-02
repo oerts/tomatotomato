@@ -2,8 +2,8 @@ import type { Config } from "drizzle-kit";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("Missing environment variable: DATABASE_URL");
+if (!process.env.POSTGRES_URL) {
+  throw new Error("Missing environment variable: POSTGRES_URL");
 }
 
 export default {
@@ -11,6 +11,6 @@ export default {
   out: "./app/db/migrations",
   driver: "pg",
   dbCredentials: {
-    connectionString: process.env.DATABASE_URL,
+    connectionString: process.env.POSTGRES_URL,
   },
 } satisfies Config;
